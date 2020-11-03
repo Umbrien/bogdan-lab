@@ -11,10 +11,8 @@ class Ellipse {
         }
 
         bool isInside(double x, double y) {
-            //double a = this->xAxis/2;
-            //double b = this->yAxis/2;
-            double a = this->xAxis;
-            double b = this->yAxis;
+            double a = this->xAxis/2;
+            double b = this->yAxis/2;
 
             return ((x*x)/(a*a) + (y*y)/(b*b) <= 1.);
         }
@@ -33,11 +31,10 @@ int main() {
     cout << "y: ";
     cin >> y;
 
-    //bool res = z(x);
-    //cout << "z: " << res << endl;
-
-    cout << e1.isInside(x,y);
-    cout << e2.isInside(x,y);
+    if (e1.isInside(x,y) || e2.isInside(x,y))
+        cout << "Входит" << endl;
+    else
+        cout << "Не входит" << endl;
 
     return 0;
 }
