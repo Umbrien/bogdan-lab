@@ -32,9 +32,9 @@ int main() {
     cin >> y;
 
     if (e1.isInside(x,y) || e2.isInside(x,y))
-        cout << "Входит" << endl;
+        cout << "Принадлежит" << endl;
     else
-        cout << "Не входит" << endl;
+        cout << "Не принадлежит" << endl;
 
     return 0;
 }
