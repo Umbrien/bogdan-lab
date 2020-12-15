@@ -10,17 +10,18 @@ int main() {
 
     int index_counter = 0;
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 9; ++i) {
         if (C <= A[i] && A[i] < D) {
             F[index_counter] = A[i];
             ++index_counter;
         }
     }
 
-    for (int i=0; i < index_counter; ++i) {
-        cout << F[i] <<endl;
+    cout << "F = {";
+    for (int i = 0; i < index_counter; ++i) {
+        cout << F[i] << ", ";
     }
-
+    cout << "\b\b}\n";
 
     return 0;
 }
