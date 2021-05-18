@@ -132,6 +132,7 @@ namespace ConsoleApp1
             Node node = new Node(data);
             
             if (Root == null && position != 0) return;
+            if (position < 0 || position > Length) return;
 
             if (Root != null && position == 0) {
                 node.Next = Root;
@@ -155,9 +156,9 @@ namespace ConsoleApp1
         
         private Node recursiveDeleteNode(Node start, int n) 
         {
-            if (n < 1) return start;
+            if (n < 0) return start;
             if (start == null) return null;
-            if (n == 1) return start.Next;
+            if (n == 0) return start.Next;
 
             start.Next = recursiveDeleteNode(start.Next, n-1); 
             return start;
@@ -206,39 +207,80 @@ namespace ConsoleApp1
         {
             return searchRecursive(Root, el, 0);
         }
+        
+        private Node sortedMerge(Node a, Node b)
+        {
+            Node result;
+            
+            if (a == null) return b;
+            if (b == null) return a;
+            
+            if (a.Data <= b.Data)
+            {
+                result = a;
+                result.Next = sortedMerge(a.Next, b);
+            }
+            else
+            {
+                result = b;
+                result.Next = sortedMerge(a, b.Next);
+            }
+            return result;
+        }
+        
+        private Node getMiddle(Node h)
+        {
+            if (h == null) return null;
+            
+            Node fastptr = h.Next;
+            Node slowptr = h;
+            
+            while (fastptr != null)
+            {
+                fastptr = fastptr.Next;
+                if (fastptr != null)
+                {
+                    slowptr = slowptr.Next;
+                    fastptr = fastptr.Next;
+                }
+            }
+            return slowptr;
+        }
+ 
+        private Node MergeSort(Node h)
+        {
+            if (h == null || h.Next == null) return h;
+            
+            Node middle = getMiddle(h);
+            Node middleNext = middle.Next;
+            
+            middle.Next = null;
+            
+            Node left = MergeSort(h);
+            Node right = MergeSort(middleNext);
+            
+            Node sortedlist = sortedMerge(left, right);
+            return sortedlist;
+        }
+        
+        public void Sort()
+        {
+            Root = MergeSort(Root);
+        }
     }
 
     class Program
     {
         private static void Main(string[] args)
         {
-            RList list1 = new RList(1);
-            RList.Node n = new RList.Node(3);
-            RList list2 = new RList(2, n);
-            RList list3 = list1 + list2;
-            list3.ReversePrintList();
-            RList list4 = list3 - list2;
-            list4.ReversePrintList();
-            RList list5 = list3 - list1;
-            list5.ReversePrintList();
-            
-            Console.WriteLine();
-            
-            list1.Insert(2);
-            list1.Insert(3, 1);
-            list1.ReversePrintList();
-            list1.DeleteNode(1);
-            list1.ReversePrintList();
-            
-            Console.WriteLine();
-            
-            Console.Write("List 3 search 1: ");
-            Console.WriteLine(list3.Search(1));
-            list3.ClearList();
-            Console.WriteLine("List 3: ");
-            list3.ReversePrintList();
-            Console.Write("List 3 search 1: ");
-            Console.WriteLine(list3.Search(1));
+            RList l = new RList(1);
+            l.Insert(5);
+            l.Insert(2);
+            l.Insert(3);
+            l.Insert(4);
+            l.ReversePrintList();
+            l.Sort();
+            l.ReversePrintList();
         }
     }
 }
